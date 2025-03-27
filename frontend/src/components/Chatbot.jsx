@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageBubble } from "./MessageBubble";
 import "./../styles/chatbot.css";
 
 export const Chatbot = ({ messages, setMessages }) => {
     const [input, setInput] = useState("");
     const [isTyping, setIsTyping] = useState(false);
+    const [theme, setTheme] = useState("light"); // Light theme by default
+
+    // Handle theme switching
+    const toggleTheme = () => {
+        setTheme(theme === "light" ? "dark" : "light");
+    };
+
+    useEffect(() => {
+        document.body.className = theme + "-theme";  // Apply theme globally
+    }, [theme]);
 
     const sendMessage = async () => {
         if (!input.trim()) return;
@@ -40,8 +50,21 @@ export const Chatbot = ({ messages, setMessages }) => {
         }
     };
 
+    // Handle the Enter key press
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();  // Prevent the default behavior (like a line break)
+            sendMessage();       // Trigger sendMessage when Enter is pressed
+        }
+    };
+
     return (
         <div className="chat-container">
+            {/* Theme Toggle Button */}
+            <button className="theme-switcher" onClick={toggleTheme}>
+                {theme === "light" ? "🌙" : "☀️"}
+            </button>
+
             <div className="messages">
                 {messages.map((msg, index) => (
                     <MessageBubble key={index} message={msg} />
@@ -53,6 +76,7 @@ export const Chatbot = ({ messages, setMessages }) => {
                 <input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
+                    onKeyPress={handleKeyPress}  // Listen for Enter key press
                     placeholder="Hi I am your friend..."
                     className="input-field"
                 />

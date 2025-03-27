@@ -1,43 +1,79 @@
+/* Global Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Light and Dark Theme */
+.light-theme {
+    background-color: #f7f9fc;
+    color: #333;
+}
+
+.dark-theme {
+    background-color: #2e2e2e;
+    color: #f0f0f0;
+}
+
+/* Chat Container */
 .chat-container {
     max-width: 600px;
     margin: 40px auto;
-    background-color: #f7f9fc;
+    background: linear-gradient(135deg, #f7f9fc, #e1e9f2);  /* Light gradient for light theme */
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    transition: all 0.3s ease;
 }
 
+/* Dark Mode Background */
+.dark-theme .chat-container {
+    background: linear-gradient(135deg, #3a3a3a, #2e2e2e);  /* Subtle dark gradient */
+}
+
+/* Message container - Flow from top to bottom */
 .messages {
     max-height: 400px;
     overflow-y: auto;
     padding: 10px;
+    display: flex;
+    flex-direction: column; /* Message flow from top to bottom */
+    gap: 10px;
 }
 
+/* Message Bubbles */
+.message-bubble {
+    padding: 12px 18px;
+    margin: 5px 0;
+    border-radius: 15px;
+    max-width: 70%;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+/* User Message Style */
+.user {
+    background-color: #9a66cc;  /* lilac */
+    color: #fff;
+    align-self: flex-end;
+}
+
+/* Assistant Message Style */
+.assistant {
+    background-color: #e0c3fc;  /* lavender */
+    color: #000;
+    align-self: flex-start;
+}
+
+/* Typing Indicator */
 .typing-indicator {
     color: #666;
     font-style: italic;
     padding: 8px;
 }
 
-.message-bubble {
-    padding: 10px 15px;
-    margin: 5px 0;
-    border-radius: 15px;
-    max-width: 70%;
-}
-
-.user {
-    background-color: #0078FF;
-    color: #fff;
-    align-self: flex-end;
-}
-
-.assistant {
-    background-color: #E3E3E3;
-    color: #000;
-    align-self: flex-start;
-}
-
+/* Input Area */
 .input-container {
     display: flex;
     gap: 10px;
@@ -47,13 +83,13 @@
 .input-field {
     flex: 1;
     padding: 10px;
-    border: 2px solid #0078FF;
+    border: 2px solid #9a66cc;
     border-radius: 8px;
     outline: none;
 }
 
 .send-button {
-    background-color: #0078FF;
+    background-color: #9a66cc;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -62,5 +98,25 @@
 }
 
 .send-button:hover {
-    background-color: #005EC2;
+    background-color: #7a4fa3;
+}
+
+/* Animation for Smooth Message Fade-in */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Theme Switcher Styles */
+.theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #0078FF;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
 }
