@@ -15,7 +15,7 @@ export const Chatbot = ({ messages, setMessages }) => {
         setIsTyping(true);
 
         try {
-            const response = await fetch("/api/ask", {  // ✅ Matches updated Flask route
+            const response = await fetch("/api/ask", {  
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: input, chat_history: newMessages }),
@@ -46,14 +46,14 @@ export const Chatbot = ({ messages, setMessages }) => {
                 {messages.map((msg, index) => (
                     <MessageBubble key={index} message={msg} />
                 ))}
-                {isTyping && <div className="typing-indicator">AI Tour guide is typing...</div>}
+                {isTyping && <div className="typing-indicator">Emotional-Support-Chatbot is typing...</div>}
             </div>
 
             <div className="input-container">
                 <input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Hi I am your tour guide..."
+                    placeholder="Hi I am your friend..."
                     className="input-field"
                 />
                 <button onClick={sendMessage} className="send-button">Send</button>
