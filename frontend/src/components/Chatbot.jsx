@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MessageBubble } from "./MessageBubble";
 import "./../styles/chatbot.css";
 
@@ -6,11 +6,17 @@ export const Chatbot = ({ messages, setMessages }) => {
     const [input, setInput] = useState("");
     const [isTyping, setIsTyping] = useState(false);
     const [theme, setTheme] = useState("light"); // Light theme by default
+    const messagesEndRef = useRef(null);  // Ref to scroll to the bottom
 
     // Handle theme switching
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
     };
+
+    // Auto scroll to the bottom whenever new messages are added
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);  // Runs every time messages change
 
     useEffect(() => {
         document.body.className = theme + "-theme";  // Apply theme globally
@@ -25,7 +31,7 @@ export const Chatbot = ({ messages, setMessages }) => {
         setIsTyping(true);
 
         try {
-            const response = await fetch("/api/ask", {  
+            const response = await fetch("/api/ask", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: input, chat_history: newMessages }),
@@ -60,6 +66,14 @@ export const Chatbot = ({ messages, setMessages }) => {
 
     return (
         <div className="chat-container">
+            {/* Contact Name (MY BUDDY) with Avatar */}
+            <div className="contact-info">
+                <div className="avatar">
+                    <img src="icon.png" alt="Buddy Avatar" /> {}
+                </div>
+                <div className="contact-name">MY BUDDY</div> {/* Updated Contact Name */}
+            </div>
+
             {/* Theme Toggle Button */}
             <button className="theme-switcher" onClick={toggleTheme}>
                 {theme === "light" ? "🌙" : "☀️"}
@@ -69,7 +83,8 @@ export const Chatbot = ({ messages, setMessages }) => {
                 {messages.map((msg, index) => (
                     <MessageBubble key={index} message={msg} />
                 ))}
-                {isTyping && <div className="typing-indicator">Emotional-Support-Chatbot is typing...</div>}
+                {isTyping && <div className="typing-indicator">MY BUDDY is typing...</div>}
+                <div ref={messagesEndRef} /> {/* Scroll target */}
             </div>
 
             <div className="input-container">
